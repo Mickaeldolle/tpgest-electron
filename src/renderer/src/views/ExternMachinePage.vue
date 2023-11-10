@@ -1,0 +1,3 @@
+<template>
+  <h1>Matériel externe</h1>
+</template>
