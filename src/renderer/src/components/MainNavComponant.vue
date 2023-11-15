@@ -63,7 +63,7 @@ import { RouterLink } from 'vue-router'
 }
 .link__icon {
   color: #586c8d;
-  font-size: 3rem;
+  font-size: 1.6rem;
   transition: 0.2s ease;
 }
 .link__icon:hover {
