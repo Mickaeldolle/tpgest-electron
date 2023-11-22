@@ -5,14 +5,22 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'home', component: () => import('../src/views/HomePage.vue') },
     {
-      path: '/daily-planning',
+      path: '/daily-planning/',
       name: 'dailyPlanning',
-      component: () => import('../src/views/DailyPlanningPage.vue')
+      component: () => import('../src/views/DailyPlanningPage.vue'),
+      children: [
+        {
+          path:'/planning-view/:id',
+          name: 'planningView',
+          component: () => import('../src/views/PlanningView.vue'),
+          props: true
+        }
+      ]
     },
     {
       path: '/small-machine',
       name: 'smallMachine',
-      component: () => import('../src/views/SmallMachinePage.vue')
+      component: () => import('../src/views/ToolPage.vue')
     },
     {
       path: '/intern-machine',
@@ -33,7 +41,7 @@ const router = createRouter({
       path: '/external-machine',
       name: 'externMachine',
       component: () => import('../src/views/ExternMachinePage.vue')
-    }
+    },
   ]
 })
 

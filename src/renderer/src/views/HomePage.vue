@@ -6,22 +6,22 @@ import { RouterLink } from 'vue-router'
 <template>
   <div class="homePage-template">
     <img class="main-icon" src="../../src/assets/icon.png" alt="">
-    <div class="action-list flex justify-evenly">
-      <RouterLink class="" to="/employees"><v-btn variant="tonal">Liste salarié</v-btn></RouterLink>
-      <RouterLink class="" to="/daily-planning"><v-btn variant="tonal">Nouveau planning</v-btn></RouterLink>
-      <RouterLink class="" to="/small-machine"><v-btn variant="tonal">Liste petite matériel interne</v-btn></RouterLink>
-      <RouterLink class="" to="/intern-machine"><v-btn variant="tonal">Liste engins interne</v-btn></RouterLink>
-      <RouterLink class="" to="/external-machine"><v-btn variant="tonal">Liste matériel location</v-btn></RouterLink>
+    <div class="action-list d-flex">
+      <form class="form m-auto w-25 mt-5">
+        <div class="form-floating mb-3">
+          <input id="floatingInput" type="email" class="form-control" placeholder="name@example.com">
+          <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating mb-3">
+        <input id="floatingInput" type="email" class="form-control" placeholder="name@example.com">
+        <label for="floatingInput">Password</label>
+      </div>
+        <div class="mb-3 form-check">
+          <input id="exampleCheck1" type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="exampleCheck1">Se souvenir</label>
+        </div>
+        <button class="btn btn-primary d-flex m-auto w-100 text-center justify-content-center">Submit</button>
+      </form>
     </div>
   </div>
 </template>
-
-<style scoped>
-.action-list {
-  position: relative;
-  top: 20%;
-}
-.main-icon {
-  margin-top: 24px;
-}
-</style>

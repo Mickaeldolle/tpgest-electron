@@ -1,90 +1,101 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue'
-import deleteEmployeeModal from '../components/modals/deleteemployee.vue'
-import updateEmployeeModal from '../components/modals/updateEmployee.vue'
+import { ref } from 'vue';
+import deleteModal from '../components/modals/deleteModal.vue';
+import updateEmployeeModal from '../components/modals/updateEmployee.vue';
+import addElementInDatabaseModal from '../components/modals/addElementInDatabaseModal.vue';
+import employee from '../../store/employees';
+
+const employeeStore = employee();
+const employeeInfo = ref();
+
+const deleteModalState = ref(false);
+const updateEmployeeModalState = ref(false);
+const addElementInDatabaseModalState = ref(false)
 
 
-const loadEmployees = async () => {
-  const response = await fetch('http://localhost:3000/employees')
-  const data = await response.json()
-  employees.value = data
-}
-onBeforeMount(() => {
-  loadEmployees()
-  console.log(employees)
-})
-
-const employees = ref()
-
-const deleteEmployeeModalState = ref(false);
-const updateEmployeeModalState = ref(false)
-
-
-const employeeInfo = ref()
-
-const showUpdateEmployeeModal = (employee) => {
+function showUpdateEmployeeModal(employee) {
   employeeInfo.value = employee;
-  updateEmployeeModalState.value = !updateEmployeeModalState.value
+  updateEmployeeModalState.value = true;
+};
+function showdeleteModal() {
+  deleteModalState.value = true;
+};
+function showAddElementInDatabaseModal() {
+  addElementInDatabaseModalState.value = true;
 }
-
-const showDeleteEmployeeModal = () => {
-  deleteEmployeeModalState.value = !deleteEmployeeModalState.value
-}
-
-function btnClick() {
+function closeModalBtn() {
   updateEmployeeModalState.value = false
-  deleteEmployeeModalState.value = false
-}
+  deleteModalState.value = false
+  addElementInDatabaseModalState.value = false
+};
+if (employeeStore.$employee.employeeslist.length === 0) {
+  employeeStore.$employee.get();
+};
 
 </script>
 
 <template>
   <div class="employee-list__template">
-    <deleteEmployeeModal v-if="deleteEmployeeModalState" @close-modal="btnClick"/>
-    <updateEmployeeModal v-if="updateEmployeeModalState" :employee="employeeInfo" @close-modal="btnClick"/>
+    <addElementInDatabaseModal v-if="addElementInDatabaseModalState" @close-modal="closeModalBtn" />
+    <deleteModal v-if="deleteModalState" message="Êtes vous sur de vouloir supprimer ce salarié ?"
+      @close-modal="closeModalBtn" />
+    <updateEmployeeModal v-if="updateEmployeeModalState" :employee="employeeInfo" @close-modal="closeModalBtn" />
     <h2 class="view-title">Liste des salariés</h2>
-    <v-table class="employee-list__table" theme="ligth">
-    <thead>
-      <tr>
-        <th class="text-left">
-          N° matricule
-        </th>
-        <th class="text-left">
-          Prénom
-        </th>
-        <th class="text-left">
-          Nom
-        </th>
-        <th class="text-left">
-          Poste
-        </th>
-        <th class="text-left">
-          Début du contrat
-        </th>
-        <th class="text-left">
-          Fin de contract
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(employee, key) in employees" :key="key">
-        <td>{{ employee.intern_identification ?? '/' }}</td>
-        <td>{{ employee.firstname ?? '/' }}</td>
-        <td>{{ employee.lastname ?? '/' }}</td>
-        <td>{{ employee.role ?? "/" }}</td>
-        <td>{{ employee.contract_starting ?? "/" }}</td>
-        <td>{{ employee.contract_ending ?? "/" }}</td>
-        <td>
-          <v-btn variant="tonal" color="green" @click="showUpdateEmployeeModal(employee)">
-            <font-awesome-icon class="icon update-icon" :icon="['fas', 'pen']" />
-          </v-btn>
-          <v-btn class="ml-1" variant="tonal" color="deep-orange" @click="showDeleteEmployeeModal">
-            <font-awesome-icon class="icon delete-icon" :icon="['fas', 'trash']" />
-          </v-btn>
-        </td>
-      </tr>
-    </tbody>
-  </v-table>
+    <div class="employee__config">
+      <button class="btn btn-outline-primary" @click="showAddElementInDatabaseModal">
+        <font-awesome-icon class="mr-5" icon="fa-solid fa-plus" /> Ajouter un salarié
+      </button>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">
+            N° matricule
+          </th>
+          <th scope="col">
+            Prénom
+          </th>
+          <th scope="col">
+            Nom
+          </th>
+          <th scope="col">
+            Poste
+          </th>
+          <th scope="col">
+            Début du contrat
+          </th>
+          <th scope="col">
+            Fin de contract
+          </th>
+          <th scope="col">
+            Status
+          </th>
+          <th scope="col">
+            Equipe
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(person, index) in employeeStore.$employee.employeeslist" :key="index" class="employee__item">
+          <td>{{ person.intern_identification ?? '/' }}</td>
+          <td>{{ person.firstname ?? '/' }}</td>
+          <td>{{ person.lastname ?? '/' }}</td>
+          <td>{{ person.role ?? "/" }}</td>
+          <td>{{ person.contract_starting ?? "/" }}</td>
+          <td>{{ person.contract_ending ?? "/" }}</td>
+          <td>{{ person.status ?? "/" }}</td>
+          <td>{{ person.team ?? "/" }}</td>
+          <td>
+            <button class="btn btn-primary" @click="showUpdateEmployeeModal(employee)">
+              <font-awesome-icon class="icon update-icon" :icon="['fas', 'pen']" />
+            </button>
+            <button class="btn btn-danger ms-1" @click="showdeleteModal">
+              <font-awesome-icon class="icon delete-icon" :icon="['fas', 'trash']" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -93,12 +104,6 @@ function btnClick() {
   font-size: 1.6rem;
   border-bottom: 1px solid;
   margin-top: 16px;
+  margin-bottom: 16px;
 }
-.employee-list__table {
-  max-height: 95vh;
-}
-.icon {
-  margin-left: 8px;
-}
-
 </style>

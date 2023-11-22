@@ -1,5 +1,8 @@
 <script setup>
 defineEmits(['closeModal'])
+const props = defineProps({
+  message: String
+})
 </script>
 
 
@@ -9,7 +12,7 @@ defineEmits(['closeModal'])
       <font-awesome-icon class="icon" icon="fa-solid fa-xmark" @click="$emit('closeModal')"/>
       <div class="message mb-5">
         <font-awesome-icon :icon="['fas', 'triangle-exclamation']" />
-        Êtes vous sur de vouloir supprimé ce salarié ?
+        {{ props.message }}
       </div>
       <div class="confirm-btn">
         <v-btn color="red" variant="tonal" class="me-4">

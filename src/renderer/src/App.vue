@@ -12,13 +12,14 @@ import MainNavComponant from './components/MainNavComponant.vue'
 #app {
   max-height: 100vh;
   display: flex;
-  justify-content: space-between;
 }
 .main-nav-left {
   width: 5vw;
 }
 .view {
-  width: 85vw;
-  margin-right: 24px;
+  width: 90vw;
+  margin: auto;
+  height: 95vh;
+  overflow: auto;
 }
 </style>

@@ -2,19 +2,14 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'
 import router from '../router/index'
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+
+import "bootstrap/dist/css/bootstrap.css";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle";
 
 const pinia = createPinia()
 const app = createApp(App)
 
 
-const vuetify = createVuetify({
-  components,
-  directives,
-})
 
 
 /* import the fontawesome core */
@@ -35,6 +30,7 @@ import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 
 /* add icons to the library */
@@ -49,7 +45,8 @@ library.add(
   faPen,
   faTrash,
   faTriangleExclamation,
-  faXmark
+  faXmark,
+  faPlus
 )
 
-app.use(router).use(pinia).use(vuetify).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+app.use(router).use(pinia).use(bootstrap).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
